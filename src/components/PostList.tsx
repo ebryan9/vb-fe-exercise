@@ -1,5 +1,6 @@
 import { Post } from '../models/post';
 import { Button, List, ListItem, ListItemText, Typography } from '@mui/material';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -20,10 +21,14 @@ const PostList: React.FC<Props> = ({ posts, onDelete }) => {
     <List>
       {posts.map((post) => (
         <ListItem key={post.id} divider>
-          <ListItemText
-            primary={post.title}
-            secondary={`${post.text?.slice(0, 100) ?? ''}... (${new Date(post.timestamp).toLocaleString()})`}
-          />
+            <ListItemText
+                primary={
+                    <Link to={`/posts/${post.id}`} style={{ textDecoration: 'none', color: '#1976d2' }}>
+                    {post.title}
+                    </Link>
+                }
+                secondary={`${post.text.slice(0, 100)}... (${moment(post.timestamp).format('MMMM D, YYYY')})`}
+            />
           <Button
             component={Link}
             to={`/posts/edit/${post.id}`}
