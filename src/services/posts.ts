@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Post } from '../models/post';
 
 const API_URL = 'https://us-central1-mbtcandidate.cloudfunctions.net/posts/bbryan211';
@@ -15,10 +16,11 @@ export const getPostById = async (id: string): Promise<Post> => {
 };
 
 export const createPost = async (post: Omit<Post, 'id' | 'timestamp'>): Promise<Post> => {
+  const timestamp = moment().format('ddd MMM DD HH:mm:ss [EST] YYYY');   
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...post, timestamp: new Date().toISOString() }),
+    body: JSON.stringify({ ...post, timestamp }),
   });
 
   const data = await res.json();
